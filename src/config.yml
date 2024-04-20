@@ -1,3 +1,7 @@
+ball_tracking:
+  lower_thresh: (60, 120, 230)
+  upper_thresh: (80, 150, 265)
+
 heuristics:
   roll_k: 1.0
   roll_max: 10 # in degrees
@@ -13,3 +17,4 @@ params:
 constants:
   g: 9.81 # keep positive
   e: 0.4 # coefficient of restitution
+  control_joint: 3

@@ -3,8 +3,10 @@ from scipy.spatial.transform import Rotation
 from scipy.optimize import root
 from frankapy import FrankaArm
 from frankapy import FrankaConstants
-from constants import CONTROL_JOINT
+from config import Config
 
+config = Config()
+CONTROL_JOINT = config["constants"]["control_joint"]
 
 def solve(franka_arm: FrankaArm,
           position: np.ndarray,

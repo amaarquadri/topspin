@@ -30,6 +30,8 @@ def main():
     main_node = MainNode()
     main_node.run()
 
+    while not rospy.is_shutdown():
+        pass
 
 if __name__ == '__main__':
     main()

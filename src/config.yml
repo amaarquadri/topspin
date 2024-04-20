@@ -1,0 +1,15 @@
+heuristics:
+  roll_k: 1.0
+  roll_max: 10 # in degrees
+  pitch_k: 1.0
+  pitch_max: 10 # in degrees
+
+params:
+  x_des: 0.5
+  y_des: 0.5
+  z_des: 1.0 # desired height of ball (in m)
+  z_paddle: 0.5 # z-plane of paddle
+
+constants:
+  g: 9.81 # keep positive
+  e: 0.4 # coefficient of restitution

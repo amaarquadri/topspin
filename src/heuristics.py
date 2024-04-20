@@ -7,11 +7,10 @@ class Heuristics:
 
     def get_point_of_contact(self, x, y, z, vx, vy, vz):
         t = (vz + math.sqrt(vz**2 + 2 * self.config.g * (self.config.z_paddle - z))) / self.config.g
-        x = vx * t - 0.5 * self.config.g * t * t
-        y = vy * t - 0.5 * self.config.g * t * t
-        z = vz * t - 0.5 * self.config.g * t * t
-        vx = vx - self.config.g * t
-        vy = vy - self.config.g * t
+        x = x + vx * t
+        y = y + vy * t
+        z = z + vz * t - 0.5 * self.config.g * t * t
+        
         vz = vz - self.config.g * t
 
         h_max = (vz * vz) / (2 * self.config.g)
@@ -32,3 +31,5 @@ class Heuristics:
     def run(self, x, y, z, vx, vy, vz):
         t, x_f, y_f, z_f, vx_f, vy_f, vz_f, h_max = self.get_point_of_contact(x, y, z, vx, vy, vz) # vx_f, vy_f unused
         t, x_des, y_des, z_des, r_des, p_des, yaw_des, vz_des = self.get_heuristics(t, x, y, x_f, y_f, z_f, vz_f, h_max) # garbage yaw
+
+        return t, x_des, y_des, z_des, r_des, p_des, yaw_des, vz_des

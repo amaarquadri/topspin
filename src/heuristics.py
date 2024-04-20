@@ -1,33 +1,43 @@
 import math
 from config import Config
 
-class Heuristics:
-    def __init__(self):
-        self.config = Config()
+config = Config()
     
-    def get_point_of_contact(self, x, y, z, vx, vy, vz):
-        t = (vz + math.sqrt(vz**2 + 2 * self.config.g * (self.config.z_paddle - z))) / self.config.g
-        x = x + vx * t
-        y = y + vy * t
-        z = z + vz * t - 0.5 * self.config.g * t * t
-        
-        vz = vz - self.config.g * t
+def time_to_contact(x, v):
+    t = (v[2] + math.sqrt(v[2]**2 + 2 * config.g * (config.z_paddle - x[2]))) / config.g
+    return t
 
-        return t, x, y, z, vx, vy, vz
+def get_point_of_contact(x, v):
+    t = time_to_contact(x, v)
+    x = x + v[0] * t
+    y = y + v[1] * t
+    z = z + v[2] * t - 0.5 * config.g * t * t
+    
+    vz = vz[2] - config.g * t
 
-    def get_heuristics(self, t, x, y, x_f, y_f, z_f, vz_f):
-        x_des = x_f
-        y_des = y_f
-        r_des = max(self.config.roll_k * (x - self.config.x_des), self.config.roll_max)
-        p_des = max(self.config.pitch_k * (y - self.config.y_des), self.config.pitch_max)
+    return t, [x, y, z], [v[0], v[1], vz]
 
-        v_ball_des = math.sqrt(2 * self.config.g * self.config.z_des)
-        vz_des = v_ball_des / self.config.e + vz_f
+def get_heuristics(t, x, x_f, v_f):
+    """
+    Input:
+    current ball pose (x)
+    ball pose at point of contact (x_f)
+    ball velocity at point of contact (v_f)
+    """
+    roll = max(config.roll_k * (x[0] - config.x_des), config.roll_max)
+    pitch = max(config.pitch_k * (x[1] - config.y_des), config.pitch_max)
 
-        return t, x_des, y_des, z_f, r_des, p_des, 0.0, vz_des
+    v_ball_des = math.sqrt(2 * config.g * config.z_des)
+    vz_des = v_ball_des / config.e + v_f[2]
 
-    def run(self, x, y, z, vx, vy, vz):
-        t, x_f, y_f, z_f, vx_f, vy_f, vz_f = self.get_point_of_contact(x, y, z, vx, vy, vz) # vx_f, vy_f unused
-        t, x_des, y_des, z_des, r_des, p_des, yaw_des, vz_des = self.get_heuristics(t, x, y, x_f, y_f, z_f, vz_f) # garbage yaw
+    x_des = [x_f[0], x_f[1], x_f[2]]
+    theta_des = [roll, pitch, 0.0]
+    v_des = [0.0, 0.0, vz_des]
 
-        return t, x_des, y_des, z_des, r_des, p_des, yaw_des, vz_des
+    return t, x_des, theta_des, v_des
+
+def run(x, v):
+    t, x_f, v_f = get_point_of_contact(x, v)
+    t, x_des, theta_des, v_des = get_heuristics(t, x, x_f, v_f) # garbage theta[2], v[0], v[1]
+
+    return t, x_des, theta_des, v_des

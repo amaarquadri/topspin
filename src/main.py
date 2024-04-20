@@ -1,8 +1,9 @@
 import rospy
 from geometry_msgs.msg import PoseStamped
 from frankapy import FrankaArm
-from planner import Planner
 from config import Config
+from heuristics import Heuristics
+from planner import Planner
 
 class MainNode:
     def __init__(self):
@@ -11,6 +12,7 @@ class MainNode:
         self.ball_pose = None
 
         self.config = Config()
+        self.heuristics = Heuristics()
         self.planner = Planner()
 
         self.franka_arm = FrankaArm(with_gripper=False)
@@ -26,9 +28,9 @@ class MainNode:
 
     def update(self):
 
-        if self.ball_pose.pose.position.z - self.config.z_des < 0.1:
-            pass
-        
+        if self.ball_pose.pose.position.z - self.config.z_paddle < self.config.delta_z:
+            self.state = "waiting to swing"
+
         x = self.ball_pose.pose.position.x
         y = self.ball_pose.pose.position.y
         z = self.ball_pose.pose.position.z

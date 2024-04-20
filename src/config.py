@@ -22,6 +22,8 @@ class Config:
         self.control_joint = None
 
         self.swing_angle = None
+
+        self.delta_z = None
     
     def get_config(self):
         with open('config.yml', 'r') as file:
@@ -42,3 +44,4 @@ class Config:
         self.pitch_max = self.config["params"]["pitch_max"]
 
         self.swing_angle = self.config["params"]["swing_angle"]
+        self.delta_z = self.config["params"]["delta_z"]

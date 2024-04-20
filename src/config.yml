@@ -14,6 +14,7 @@ params:
   z_des: 1.0 # desired height of ball (in m)
   z_paddle: 0.5 # z-plane of paddle
   swing_angle: 5 # total swing angle (in deg)
+  delta_z: 0.1 # height above z_des that swinging should start
 
 constants:
   g: 9.81 # keep positive

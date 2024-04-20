@@ -18,6 +18,10 @@ class Config:
         self.roll_max = None
         self.pitch_k = None
         self.pitch_max = None
+
+        self.control_joint = None
+
+        self.swing_angle = None
     
     def get_config(self):
         with open('config.yml', 'r') as file:
@@ -25,6 +29,7 @@ class Config:
 
         self.g = self.config["constants"]["g"]
         self.e = self.config["constants"]["e"]
+        self.config.control_joint = self.config["constants"]["control_joint"]
         
         self.x_des = self.config["params"]["x_des"]
         self.y_des = self.config["params"]["y_des"]
@@ -35,3 +40,5 @@ class Config:
         self.roll_max = self.config["params"]["roll_max"]
         self.pitch_k = self.config["params"]["pitch_k"]
         self.pitch_max = self.config["params"]["pitch_max"]
+
+        self.swing_angle = self.config["params"]["swing_angle"]

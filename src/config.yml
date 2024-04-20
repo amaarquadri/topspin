@@ -13,8 +13,9 @@ params:
   y_des: 0.5
   z_des: 1.0 # desired height of ball (in m)
   z_paddle: 0.5 # z-plane of paddle
+  swing_angle: 5 # total swing angle (in deg)
 
 constants:
   g: 9.81 # keep positive
   e: 0.4 # coefficient of restitution
-  control_joint: 3
+  control_joint: 3 # 0-indexed

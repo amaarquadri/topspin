@@ -4,7 +4,7 @@ from config import Config
 class Heuristics:
     def __init__(self):
         self.config = Config()
-
+    
     def get_point_of_contact(self, x, y, z, vx, vy, vz):
         t = (vz + math.sqrt(vz**2 + 2 * self.config.g * (self.config.z_paddle - z))) / self.config.g
         x = x + vx * t
